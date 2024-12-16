@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TabbedPagesWithCollectionViewDemo.Pages.DailyRainFall"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:inputlayout="clr-namespace:Syncfusion.Maui.Themes;assembly=Syncfusion.Maui.Core"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:models="clr-namespace:TabbedPagesWithCollectionViewDemo.Models"
+    xmlns:sgrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+    xmlns:style="clr-namespace:TabbedPagesWithCollectionViewDemo.Models"
+    xmlns:viewmodel="clr-namespace:TabbedPagesWithCollectionViewDemo.ViewModels"
+    Title="DailyRainFall"
+    x:DataType="viewmodel:DailyRainViewModel"
+    Loaded="ContentPage_Loaded">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <style:RainReportStyleConverter x:Key="result" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+  
+    <Grid>
+
+        <Grid Margin="5" RowDefinitions="60,Auto">
+
+            <HorizontalStackLayout
+                Grid.Row="0"
+                Padding="10">
+
+                <inputs:SfComboBox
+                    x:Name="TechnicianComboBox"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=SlateGray,
+                                                      Default=White}"
+                    DisplayMemberPath="Text"
+                    DropDownItemHeight="50"
+                    FontSize="16"
+                    IsClearButtonVisible="False"
+                    ItemsSource="{Binding Technicians}"
+                    MaxDropDownHeight="250"
+                    NoResultsFoundText="No Techs Found"
+                    SelectedItem="{Binding SelectedTechnician}"
+                    SelectionChanged="TechnicianComboBox_SelectionChanged"
+                    ShowBorder="true"
+                    TextColor="{AppThemeBinding Light=Black,
+                                                Dark=White,
+                                                Default=Black}"
+                    VerticalOptions="FillAndExpand"
+                    WidthRequest="300" />
+
+            </HorizontalStackLayout>
+
+            <sgrid:SfDataGrid
+                x:Name="DailyRainGrid"
+                Grid.Row="1"
+                HeightRequest="800"
+                AllowDraggingColumn="False"
+                AllowEditing="False"
+                AllowResizingColumns="False"
+                AutoGenerateColumnsMode="None"
+                CanMaintainScrollPosition="True"
+                FrozenColumnCount="2"
+                HeaderRowHeight="30"
+                ItemsSource="{Binding RainDataCollection}"
+                RowHeight="35"
+                SelectionMode="Single">
+
+
+
+                <sgrid:SfDataGrid.SortColumnDescriptions>
+                    <sgrid:SortColumnDescription ColumnName="PivotName" />
+                </sgrid:SfDataGrid.SortColumnDescriptions>
+
+                <sgrid:SfDataGrid.Columns>
+                    <sgrid:DataGridTextColumn
+                        AllowEditing="False"
+                        AllowSorting="True"
+                        HeaderText="Pivot"
+                        MappingName="PivotName"
+                        MinimumWidth="100">
+                        <sgrid:DataGridTextColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter Property="BackgroundColor" Value="Beige" />
+                            </Style>
+                        </sgrid:DataGridTextColumn.CellStyle>
+                    </sgrid:DataGridTextColumn>
+                    <sgrid:DataGridTextColumn
+                        AllowEditing="False"
+                        AllowSorting="True"
+                        Format="F2"
+                        HeaderText="Totals"
+                        MappingName="Total"
+                        MinimumWidth="80">
+                        <sgrid:DataGridTextColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Total, Converter={StaticResource result}}" />
+                                <Setter Property="BackgroundColor" Value="AliceBlue" />
+                            </Style>
+                        </sgrid:DataGridTextColumn.CellStyle>
+                    </sgrid:DataGridTextColumn>
+                    <sgrid:DataGridNumericColumn
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date1, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain1"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain1, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date2, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain2"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain2, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date3, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain3"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain3, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date4, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain4"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain4, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date5, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain5"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain5, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        x:DataType="viewmodel:DailyRainViewModel"
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date6, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain6"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain6, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                    <sgrid:DataGridNumericColumn
+                        x:DataType="viewmodel:DailyRainViewModel"
+                        AllowEditing="False"
+                        AllowSorting="False"
+                        Format="F2"
+                        HeaderText="{Binding Date7, StringFormat='{0:M/dd}'}"
+                        MappingName="Rain7"
+                        MinimumWidth="40">
+                        <sgrid:DataGridNumericColumn.CellStyle>
+                            <Style TargetType="sgrid:DataGridCell">
+                                <Setter x:DataType="models:SevenDayRainRow" Property="TextColor" Value="{Binding Rain7, Converter={StaticResource result}}" />
+                            </Style>
+                        </sgrid:DataGridNumericColumn.CellStyle>
+                    </sgrid:DataGridNumericColumn>
+                </sgrid:SfDataGrid.Columns>
+            </sgrid:SfDataGrid>
+
+        </Grid>
+
+
+
+        <!--<core:SfBusyIndicator
+            x:Name="LoadingTankDetailsIndicator"
+            Title="Loading"
+            AnimationType="Cupertino"
+            FontAttributes="Bold"
+            FontSize="25"
+            IsRunning="True"
+            IsVisible="{Binding IsLoading}"
+            Opacity=".35"
+            OverlayFill="Black"
+            TextColor="White"
+            TitlePlacement="Top" />-->
+
+    </Grid>
+
+</ContentPage>
